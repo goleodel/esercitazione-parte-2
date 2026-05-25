@@ -349,7 +349,7 @@ void Shape::GetText(char* string)
 /// @brief controllo che boundingBox è nella griglia
 /// @param float dimensioni griglia
 
-void Shape:: Verify_Grid(float px, float py, float w, float h)
+void Shape:: Verify_Grid(float px, float py, float w, float h, float sf )
 { 	
     if(px<0 || px+w > OCC || py- h< 0 || py >OCC ){
         WarningMessage("SetPosition: the position in the grid cannot be a negative value; clamped to 0");
