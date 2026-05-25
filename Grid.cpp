@@ -1,4 +1,4 @@
-/*! \file CShape.cpp
+/*! \file Grid.cpp
     \brief implementation of class Grid
 	\author Delfini-Iannone
 */
