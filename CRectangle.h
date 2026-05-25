@@ -1,6 +1,6 @@
 /*! \file CRectangle.h
     \brief Declaration of the class Rectangle
-    \author Paolo Gastaldo
+    \author Delfini-Iannone
 */
 
 #ifndef RECTANGLE_H
