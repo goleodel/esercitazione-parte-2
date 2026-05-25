@@ -1,118 +1,229 @@
-/*! \file main_draft.cpp
+/*! \file main.cpp
     \brief testare le classi create
-	\author Delfini-Iannone
+    \author Delfini-Iannone
 */
 
 #include <iostream>
-#include <cmath>
-
-#include "CShape.h"
+#include "Grid.h"
 #include "CRectangle.h"
 #include "CRhombus.h"
 #include "CRightTriangle.h"
-#include "menu.h"
 
 using namespace std;
 
-#define MAX_SHAPES 10
+/*!
+    \brief Funzione principale del programma
 
-
-/// @brief per verificare il corretto funzionamento del programma 
+    Gestisce il menu interattivo per:
+    - visualizzare i poligoni
+    - modificare figure
+    - spostare figure
+    - inserire nuove figure
+    - eliminare figure
+*/
 int main()
 {
-    Shape* shapes[MAX_SHAPES];
-    int nShapes = 0;
-
-    cout << "===== TEST GERARCHIA SHAPE =====" << endl;
-
-    /// 1. Creazione figure (l'ultimo numero è la scala(vengono create al 100% cioè sf=1))
-    shapes[nShapes++] = new Rectangle(0, 0, 10, 5, 1);
-    shapes[nShapes++] = new Rhombus(2, 2, 10, 6, 1);
-    shapes[nShapes++] = new RightTriangle (6, 8, 3, 5, 1);
-
-
-    /// 2. Impostazione testo
-    shapes[0]->SetText("rettangolo");
-    shapes[1]->SetText("rombo");
-    shapes[2]->SetText("Triangolo");
-
-
-
-    /// 3. Dump polimorfico
-    cout << endl << "===== DUMP POLIMORFICO =====" << endl;
-    for (int i = 0; i < nShapes; i++) {
-        cout << endl << "Figura [" << i << "]" << endl;
-        shapes[i]->Dump();
-    }
-
-
-    /// 4. test della funzione Scale
-    cout << endl << "===== SCALA LA FIGURA =====" << endl;
-    for (int i = 0; i < nShapes; i++) {
-        shapes[i]-> Scale(0.5);
-    }
-
-    /// 5. Dump con scala
-    cout << endl << "===== DUMP SCALATO =====" << endl;
-    for (int i = 0; i < nShapes; i++) {
-        cout << endl << "Figura [" << i << "]" << endl;
-        shapes[i]->Dump();
-    }
-
-
-
-    /// 6. distruzione delle classi
-    cout << endl << "===== FINE TEST =====" << endl;
-    for (int i = 0; i < nShapes; i++) {
-        delete shapes[i];
-    }
-    return 0;
-
-}
-
+    Grid grid;
 
     int scelta;
 
     do
     {
-        scelta = menu();
+        cout << "\n===== SHAPE MANAGER =====" << endl;
+        cout << "1. Visualizza tutti i poligoni" << endl;
+        cout << "2. Visualizza dettaglio poligono" << endl;
+        cout << "3. Modifica poligono" << endl;
+        cout << "4. Sposta poligono" << endl;
+        cout << "5. Inserisci nuovo poligono" << endl;
+        cout << "6. Cancella poligono" << endl;
+        cout << "7. Cancella tutti" << endl;
+        cout << "0. Esci" << endl;
+        cout << "Scelta: ";
 
-        switch(scelta)
+        cin >> scelta;
+
+        if(cin.fail())
         {
-            case 1:
-                aggiungiElemento();
-                break;
-
-            case 2:
-                rimuoviElemento();
-                break;
-
-            case 3:
-                visualizzaElementi();
-                break;
-
-            case 4:
-                salvaDati();
-                break;
-
-            case 5:
-                caricaDati();
-                break;
-
-            case 0:
-                cout << "\nUscita dal programma..." << endl;
-                break;
-
-            default:
-                cout << "\nScelta non valida!" << endl;
+            cout << "Input non valido. Chiusura programma." << endl;
+            return 0;
         }
 
-    } while(scelta != 0);
+        if (scelta == 1)
+        {
+            grid.PrintShapes();
+        }
+        else if (scelta == 2)
+        {
+            int i;
+
+            cout << "Indice: ";
+            cin >> i;
+
+            if(cin.fail())
+            {
+                cout << "Input non valido. Chiusura programma." << endl;
+                return 0;
+            }
+
+            grid.PrintShape(i);
+        }
+        else if (scelta == 3)
+        {
+            int i;
+            float w, h;
+            char text[50];
+
+            cout << "Indice: ";
+            cin >> i;
+
+            if(cin.fail())
+            {
+                cout << "Input non valido. Chiusura programma." << endl;
+                return 0;
+            }
+
+            cout << "Nuova larghezza: ";
+            cin >> w;
+
+            if(cin.fail())
+            {
+                cout << "Input non valido. Chiusura programma." << endl;
+                return 0;
+            }
+
+            cout << "Nuova altezza: ";
+            cin >> h;
+
+            if(cin.fail())
+            {
+                cout << "Input non valido. Chiusura programma." << endl;
+                return 0;
+            }
+
+            if(w <= 0 || h <= 0)
+            {
+                cout << "Dimensioni non valide" << endl;
+                continue;
+            }
+
+            cout << "Testo: ";
+            cin >> text;
+
+            grid.EditShape(i, w, h, text,1);
+        }
+        else if (scelta == 4)
+        {
+            int i;
+            float x, y;
+
+            cout << "Indice: ";
+            cin >> i;
+
+            if(cin.fail())
+            {
+                cout << "Input non valido. Chiusura programma." << endl;
+                return 0;
+            }
+
+            cout << "Nuova x: ";
+            cin >> x;
+
+            if(cin.fail())
+            {
+                cout << "Input non valido. Chiusura programma." << endl;
+                return 0;
+            }
+
+            cout << "Nuova y: ";
+            cin >> y;
+
+            if(cin.fail())
+            {
+                cout << "Input non valido. Chiusura programma." << endl;
+                return 0;
+            }
+
+            grid.MoveShape(i, x, y);
+        }
+        else if (scelta == 5)
+        {
+            int type;
+            float x, y, w, h, sf;
+            char text[50];
+
+            cout << "Tipo (1 Rettangolo, 2 Rombo, 3 Triangolo): ";
+            cin >> type;
+
+            if(cin.fail())
+            {
+                cout << "Input non valido. Chiusura programma." << endl;
+                return 0;
+            }
+
+            cout << "x y w h: ";
+            cin >> x >> y >> w >> h;
+
+            if(cin.fail())
+            {
+                cout << "Input non valido. Chiusura programma." << endl;
+                return 0;
+            }
+
+            if(w <= 0 || h <= 0)
+            {
+                cout << "Dimensioni non valide" << endl;
+                continue;
+            }
+
+            sf = 1;
+
+            cout << "Testo: ";
+            cin >> text;
+
+            Shape* s = nullptr;
+
+            if (type == 1)
+                s = new Rectangle(x, y, w, h, sf);
+            else if (type == 2)
+                s = new Rhombus(x, y, w, h, sf);
+            else if (type == 3)
+                s = new RightTriangle(x, y, w, h, sf);
+            else
+            {
+                cout << "Tipo non valido" << endl;
+                continue;
+            }
+
+            s->SetText(text);
+            grid.AddShape(s);
+        }
+        else if (scelta == 6)
+        {
+            int i;
+
+            cout << "Indice: ";
+            cin >> i;
+
+            if(cin.fail())
+            {
+                cout << "Input non valido. Chiusura programma." << endl;
+                return 0;
+            }
+
+            grid.DeleteShape(i);
+        }
+        else if (scelta == 7)
+        {
+            grid.DeleteAll();
+        }
+        else if (scelta == 0)
+        {
+            grid.DeleteAll();
+        }
+
+    } while (scelta != 0);
 
     return 0;
-
-
-    
-
+}
 
 
