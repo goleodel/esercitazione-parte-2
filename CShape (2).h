@@ -68,10 +68,6 @@ public:
     void SetWidth(float w);
     void SetDim(float w, float h);
 
-
-
-    void Verify_Grid(float px, float py, float w, float h);
-
     void SetText(const char* string);
 
     void GetPosition(float &px, float &py);
@@ -93,7 +89,7 @@ public:
 
     /// @name CONTROLLI GRIGLIA
     /// @{
-	void Verify_Grid(float px, float py, float w, float h);
+	void Verify_Grid(float px, float py, float w, float h, float sf);
 	/// @}
         
 
